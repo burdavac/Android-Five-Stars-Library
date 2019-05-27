@@ -33,6 +33,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private boolean isForceMode = false;
     private final SharedPreferences sharedPrefs;
     private String supportEmail;
+    private String supportEmailTitle;
     private TextView contentTextView;
     private SimpleRatingBar ratingBar;
     private String title = null;
@@ -109,7 +110,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         final Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/email");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{supportEmail});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "App Report (" + context.getPackageName() + ")");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, (supportEmailTitle == null) ? "App Report (" + context.getPackageName() + ")" : supportEmailTitle);
         emailIntent.putExtra(Intent.EXTRA_TEXT, "");
         context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
     }
@@ -170,6 +171,11 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setSupportEmail(String supportEmail) {
         this.supportEmail = supportEmail;
+        return this;
+    }
+
+    public FiveStarsDialog setSupportEmailTitle(String title) {
+        this.supportEmailTitle = title;
         return this;
     }
 
