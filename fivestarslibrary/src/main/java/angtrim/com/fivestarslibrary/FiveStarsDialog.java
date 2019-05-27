@@ -11,8 +11,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
 
 /**
@@ -33,7 +34,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private final SharedPreferences sharedPrefs;
     private String supportEmail;
     private TextView contentTextView;
-    private RatingBar ratingBar;
+    private SimpleRatingBar ratingBar;
     private String title = null;
     private String rateText = null;
     private AlertDialog alertDialog;
@@ -61,9 +62,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         contentTextView = dialogView.findViewById(R.id.text_content);
         contentTextView.setText(textToAdd);
         ratingBar = dialogView.findViewById(R.id.ratingBar);
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        ratingBar.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+            public void onRatingChanged(SimpleRatingBar ratingBar, float v, boolean b) {
                 Log.d(TAG, "Rating changed : " + v);
                 if (isForceMode && v >= upperBound) {
                     openMarket();
@@ -73,10 +74,11 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
             }
         });
 
-        if (starColor != -1) {
-            LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
-            stars.getDrawable(1).setColorFilter(starColor, PorterDuff.Mode.SRC_ATOP);
-            stars.getDrawable(2).setColorFilter(starColor, PorterDuff.Mode.SRC_ATOP);
+        if (starColor != 0) {
+            ratingBar.setFillColor(starColor);
+            ratingBar.setPressedFillColor(starColor);
+            ratingBar.setBorderColor(starColor);
+            ratingBar.setPressedBorderColor(starColor);
         }
 
         alertDialog = builder.setTitle(titleToAdd)
