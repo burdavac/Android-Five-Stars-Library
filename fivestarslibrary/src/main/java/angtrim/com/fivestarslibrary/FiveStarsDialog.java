@@ -69,6 +69,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
             public void onRatingChanged(SimpleRatingBar ratingBar, float v, boolean b) {
                 Log.d(TAG, "Rating changed : " + v);
                 if (isForceMode && v >= upperBound) {
+                    disable();
                     openMarket();
                     if (reviewListener != null)
                         reviewListener.onReview((int) ratingBar.getRating());
@@ -119,13 +120,14 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private void show() {
         boolean disabled = sharedPrefs.getBoolean(SP_DISABLED, false);
         if (!disabled && !alertDialog.isShowing()) {
-            build();
             alertDialog.show();
         }
     }
 
     public void showAfter(int numberOfAccess) {
-        build();
+        if (alertDialog == null) {
+            build();
+        }
         SharedPreferences.Editor editor = sharedPrefs.edit();
         int numOfAccess = sharedPrefs.getInt(SP_NUM_OF_ACCESS, 0);
         editor.putInt(SP_NUM_OF_ACCESS, numOfAccess + 1);
