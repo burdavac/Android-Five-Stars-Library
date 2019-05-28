@@ -119,15 +119,15 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     private void show() {
         boolean disabled = sharedPrefs.getBoolean(SP_DISABLED, false);
-        if (!disabled && !alertDialog.isShowing()) {
-            alertDialog.show();
+        if (!disabled && alertDialog == null) {
+            build();
+            if (!alertDialog.isShowing()) {
+                alertDialog.show();
+            }
         }
     }
 
     public void showAfter(int numberOfAccess) {
-        if (alertDialog == null) {
-            build();
-        }
         SharedPreferences.Editor editor = sharedPrefs.edit();
         int numOfAccess = sharedPrefs.getInt(SP_NUM_OF_ACCESS, 0);
         editor.putInt(SP_NUM_OF_ACCESS, numOfAccess + 1);
