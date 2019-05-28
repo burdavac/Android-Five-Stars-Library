@@ -118,7 +118,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     private void show() {
         boolean disabled = sharedPrefs.getBoolean(SP_DISABLED, false);
-        if (!disabled) {
+        if (!disabled && !alertDialog.isShowing()) {
             build();
             alertDialog.show();
         }
