@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FiveStarsLibrary</string>
+
+    <string name="default_title">Oceń tą aplikację</string>
+    <string name="default_text">Jak bardzo spodobałą Ci się nasza aplikacja?</string>
+    <string name="default_positive">Ok</string>
+    <string name="default_negative">Później</string>
+    <string name="default_never">Nie pytaj</string>
+
+    <string name="send_mail">Wyślij e-mail…</string>
+    <string name="default_mail_title">Raport (%s)</string>
+</resources>
