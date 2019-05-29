@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">FiveStarsLibrary</string>
+
+    <string name="default_title">Rate this app</string>
+    <string name="default_text">How much do you love our app?</string>
+    <string name="default_positive">Ok</string>
+    <string name="default_negative">Not Now</string>
+    <string name="default_never">Never</string>
+
+    <string name="send_mail">Send mail…</string>
+    <string name="default_mail_title">App Report (%s)</string>
 </resources>

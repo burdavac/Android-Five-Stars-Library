@@ -21,12 +21,7 @@ import com.iarcuschin.simpleratingbar.SimpleRatingBar;
  */
 public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
-    private final static String DEFAULT_TITLE = "Rate this app";
-    private final static String DEFAULT_TEXT = "How much do you love our app?";
-    private final static String DEFAULT_POSITIVE = "Ok";
-    private final static String DEFAULT_NEGATIVE = "Not Now";
-    private final static String DEFAULT_NEVER = "Never";
-    private final static String SP_NUM_OF_ACCESS = "numOfAccess";
+    private static final String SP_NUM_OF_ACCESS = "numOfAccess";
     private static final String SP_DISABLED = "disabled";
     private static final String TAG = FiveStarsDialog.class.getSimpleName();
     private final Context context;
@@ -59,8 +54,8 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         LayoutInflater inflater = LayoutInflater.from(context);
         dialogView = inflater.inflate(R.layout.stars, null);
-        String titleToAdd = (title == null) ? DEFAULT_TITLE : title;
-        String textToAdd = (rateText == null) ? DEFAULT_TEXT : rateText;
+        String titleToAdd = (title == null) ? context.getString(R.string.default_title) : title;
+        String textToAdd = (rateText == null) ? context.getString(R.string.default_text) : rateText;
         contentTextView = dialogView.findViewById(R.id.text_content);
         contentTextView.setText(textToAdd);
         ratingBar = dialogView.findViewById(R.id.ratingBar);
@@ -86,9 +81,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
         alertDialog = builder.setTitle(titleToAdd)
                 .setView(dialogView)
-                .setNegativeButton((negativeButtonText == null) ? DEFAULT_NEGATIVE : negativeButtonText, this)
-                .setPositiveButton((positiveButtonText == null) ? DEFAULT_POSITIVE : positiveButtonText, this)
-                .setNeutralButton((neverButtonText == null) ? DEFAULT_NEVER : neverButtonText, this)
+                .setNegativeButton((negativeButtonText == null) ? context.getString(R.string.default_negative) : negativeButtonText, this)
+                .setPositiveButton((positiveButtonText == null) ? context.getString(R.string.default_positive) : positiveButtonText, this)
+                .setNeutralButton((neverButtonText == null) ? context.getString(R.string.default_never) : neverButtonText, this)
                 .create();
     }
 
@@ -112,9 +107,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         final Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/email");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{supportEmail});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, (supportEmailTitle == null) ? "App Report (" + context.getPackageName() + ")" : supportEmailTitle);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, (supportEmailTitle == null) ? context.getString(R.string.default_mail_title, context.getPackageName()) : supportEmailTitle);
         emailIntent.putExtra(Intent.EXTRA_TEXT, (supportEmailText == null) ? "" : supportEmailText);
-        context.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.send_mail)));
     }
 
     private void show() {
