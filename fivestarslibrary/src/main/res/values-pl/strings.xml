@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FiveStarsLibrary</string>
-
     <string name="default_title">Oceń tą aplikację</string>
     <string name="default_text">Jak bardzo spodobałą Ci się nasza aplikacja?</string>
     <string name="default_positive">Ok</string>
