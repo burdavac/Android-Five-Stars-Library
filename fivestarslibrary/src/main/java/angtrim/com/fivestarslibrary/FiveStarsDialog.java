@@ -41,6 +41,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private boolean isIconVisible = false;
     private Drawable iconDrawable = null;
     private String title = null;
+    private boolean hideMainTitle = false;
     private String rateText = null;
     private AlertDialog alertDialog;
     private View dialogView;
@@ -102,7 +103,12 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
             ratingBar.setPressedBorderColor(starColor);
         }
 
-        alertDialog = builder.setTitle(titleToAdd)
+        String mainTitle = titleToAdd;
+        if (hideMainTitle == true) {
+            mainTitle = "";
+        }
+        alertDialog = builder
+                .setTitle(mainTitle)
                 .setView(dialogView)
                 .setNegativeButton((negativeButtonText == null) ? context.getString(R.string.default_negative) : negativeButtonText, this)
                 .setPositiveButton((positiveButtonText == null) ? context.getString(R.string.default_positive) : positiveButtonText, this)
@@ -342,6 +348,11 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setIconDrawable(Drawable iconDrawable) {
         this.iconDrawable = iconDrawable;
+        return this;
+    }
+
+    public FiveStarsDialog setHideMainTitle(boolean hideMainTitle) {
+        this.hideMainTitle = hideMainTitle;
         return this;
     }
 

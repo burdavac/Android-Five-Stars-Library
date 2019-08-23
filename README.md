@@ -45,8 +45,10 @@ Example:
 
 ```java
         FiveStarsDialog fiveStarsDialog = new FiveStarsDialog(this,"angelo.gallarello@gmail.com");
-        fiveStarsDialog.setRateText("Your custom text")
+        fiveStarsDialog
+                .setRateText("Your custom text")
                 .setTitle("Your custom title")
+                .setHideMainTitle(true) //possibility to hide title in main dialog
                 .setForceMode(false)
                 .setStarColor(Color.YELLOW)
                 .setUpperBound(2) // Market opened if a rating >= 2 is selected
