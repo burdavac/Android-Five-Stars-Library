@@ -54,6 +54,8 @@ Example:
                 .setUpperBound(2) // Market opened if a rating >= 2 is selected
                 .setNegativeReviewListener(this) // OVERRIDE mail intent for negative review
                 .setReviewListener(this) // Used to listen for reviews (if you want to track them )
+                .setShowAskEmailDialog(true) //ask before send feedback email?
+                .setShowAskMarketDialog(true) //ask before open app store?
                 .setIconVisible(true) //if icon is visible
                 .setIconDrawable(drawable...) //set custom icon
                 .showAfter(5)

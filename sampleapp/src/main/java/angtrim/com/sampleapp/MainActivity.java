@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements NegativeReviewLis
                 .setHideMainTitle(true)
                 .setForceMode(false)
                 .setUpperBound(4)
+                .setShowAskEmailDialog(false)
+                .setShowAskMarketDialog(true)
                 .setIconVisible(true)
                 .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_rate_review))
                 //.setNegativeReviewListener(this)
