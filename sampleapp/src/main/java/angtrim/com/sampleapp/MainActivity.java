@@ -1,5 +1,8 @@
 package angtrim.com.sampleapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,6 +10,7 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.core.content.ContextCompat;
 import angtrim.com.fivestarslibrary.FiveStarsDialog;
 import angtrim.com.fivestarslibrary.NegativeReviewListener;
 import angtrim.com.fivestarslibrary.ReviewListener;
@@ -20,15 +24,30 @@ public class MainActivity extends AppCompatActivity implements NegativeReviewLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FiveStarsDialog fiveStarsDialog = new FiveStarsDialog(this,"angelo.gallarello@gmail.com");
-        fiveStarsDialog.setRateText("Your custom text")
-                .setTitle("Your custom title")
-                .setForceMode(false)
-                .setUpperBound(2)
-                .setNegativeReviewListener(this)
-                .setReviewListener(this)
-                .showAfter(0);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences shared = getApplicationContext().getSharedPreferences(getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putBoolean("disabled", false);
+        editor.apply();
+
+        FiveStarsDialog fiveStarsDialog = new FiveStarsDialog(this,"vasek.burda@gmail.com");
+        fiveStarsDialog
+                //.setRateText("Your custom text")
+                .setTitle("")
+                .setForceMode(false)
+                .setUpperBound(4)
+                .setIconVisible(true)
+                .setIconDrawable(ContextCompat.getDrawable(this, R.drawable.ic_rate_review))
+                //.setNegativeReviewListener(this)
+                .setReviewListener(this)
+                //.showAfter(500)
+                .showImmediatelly();
+
+        ;
     }
 
     @Override

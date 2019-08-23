@@ -5,10 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.pm.ApplicationInfo;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,6 +35,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private String supportEmailText;
     private TextView contentTextView;
     private SimpleRatingBar ratingBar;
+    private ImageView icon;
+    private boolean isIconVisible = false;
+    private Drawable iconDrawable = null;
     private String title = null;
     private String rateText = null;
     private AlertDialog alertDialog;
@@ -43,11 +49,18 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private String positiveButtonText;
     private String negativeButtonText;
     private String neverButtonText;
+    private String appName;
 
     public FiveStarsDialog(Context context, String supportEmail) {
         this.context = context;
         sharedPrefs = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
         this.supportEmail = supportEmail;
+    }
+
+    public static String getApplicationName(Context context) {
+        ApplicationInfo applicationInfo = context.getApplicationInfo();
+        int stringId = applicationInfo.labelRes;
+        return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
     }
 
     private void build() {
@@ -71,6 +84,14 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
                 }
             }
         });
+        icon = dialogView.findViewById(R.id.icon);
+        if (isIconVisible) {
+            icon.setVisibility(View.VISIBLE);
+        }
+        if (iconDrawable != null) {
+            icon.setImageDrawable(iconDrawable);
+        }
+
 
         if (starColor != 0) {
             ratingBar.setFillColor(starColor);
@@ -94,22 +115,118 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         editor.apply();
     }
 
-    private void openMarket() {
-        final String appPackageName = context.getPackageName();
-        try {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-        } catch (android.content.ActivityNotFoundException anfe) {
-            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-        }
+    public void enable() {
+        SharedPreferences shared = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+        editor.putBoolean(SP_DISABLED, false);
+        editor.apply();
     }
 
-    private void sendEmail() {
+    private void openMarket() {
+        final String appPackageName = context.getPackageName();
+        String titleToAdd = (title == null) ? context.getString(R.string.default_title) : title;
+
+        // Ask the user if they would leave a rating on the app store
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(titleToAdd)
+                .setMessage(context.getString(R.string.store_text))
+                .setPositiveButton(context.getString(R.string.store_positive), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        try {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.store_negative), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                }).create().show();
+    }
+
+    private void sendEmail_old() {
         final Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("text/email");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{supportEmail});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, (supportEmailTitle == null) ? context.getString(R.string.default_mail_title, context.getPackageName()) : supportEmailTitle);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, (supportEmailTitle == null) ? context.getString(R.string.default_mail_title, getApplicationName(context)) : supportEmailTitle);
         emailIntent.putExtra(Intent.EXTRA_TEXT, (supportEmailText == null) ? "" : supportEmailText);
         context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.send_mail)));
+    }
+
+    private void sendEmail_intent() {
+        String nameToUse = appName == null ? getApplicationName(context) : appName;
+        String titleToUse = (supportEmailTitle == null) ? context.getString(R.string.default_mail_title, getApplicationName(context)) : supportEmailTitle;
+        String bodyToUse = (supportEmailText == null) ? "" : supportEmailText;
+
+        final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("text/email");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { supportEmail });
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, titleToUse);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, bodyToUse);
+
+        String titleToAdd = (title == null) ? context.getString(R.string.default_title) : title;
+
+        // Ask the user if they would leave a rating on the app store
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(titleToAdd)
+                .setMessage(context.getString(R.string.mail_text))
+                .setPositiveButton(context.getString(R.string.mail_positive), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.mail_info)));
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.mail_negative), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                }).create().show();
+    }
+
+    private void sendEmail() {
+        String titleToAdd = (title == null) ? context.getString(R.string.default_title) : title;
+
+        // Ask the user if they would leave a rating on the app store
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(titleToAdd)
+                .setMessage(context.getString(R.string.mail_text))
+                .setPositiveButton(context.getString(R.string.mail_positive), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nameToUse = appName == null ? getApplicationName(context) : appName;
+                        String titleToUse = (supportEmailTitle == null) ? context.getString(R.string.default_mail_title, getApplicationName(context)) : supportEmailTitle;
+                        String bodyToUse = (supportEmailText == null) ? "" : supportEmailText;
+
+                        try {
+                            String mailto = "mailto:" + supportEmail + "?subject=" + titleToUse + "&body=" + bodyToUse.replace("\n","%0D%0A");
+
+                            Log.d(TAG, mailto);
+
+                            final Intent emailIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mailto));
+
+                            context.startActivity(emailIntent);
+                        } catch (Exception e) {
+                            final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                            emailIntent.setType("text/plain");
+                            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{supportEmail});
+                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, titleToUse);
+                            emailIntent.putExtra(Intent.EXTRA_TEXT, bodyToUse);
+
+                            context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.mail_info)));
+                        }
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.mail_negative), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                }).create().show();
     }
 
     private void show() {
@@ -130,6 +247,10 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         if (numOfAccess + 1 >= numberOfAccess) {
             show();
         }
+    }
+
+    public void showImmediatelly() {
+        show();
     }
 
 
@@ -204,6 +325,21 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setNeverButtonText(String neverButtonText) {
         this.neverButtonText = neverButtonText;
+        return this;
+    }
+
+    public FiveStarsDialog setAppName(String appName) {
+        this.appName = appName;
+        return this;
+    }
+
+    public FiveStarsDialog setIconVisible(boolean iconVisible) {
+        isIconVisible = iconVisible;
+        return this;
+    }
+
+    public FiveStarsDialog setIconDrawable(Drawable iconDrawable) {
+        this.iconDrawable = iconDrawable;
         return this;
     }
 

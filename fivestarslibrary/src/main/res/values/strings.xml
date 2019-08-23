@@ -5,6 +5,15 @@
     <string name="default_negative">Not Now</string>
     <string name="default_never">Never</string>
 
+    <string name="store_text">Would you like to leave a review on the app store? It really helps me out.</string>
+    <string name="store_positive">Sure</string>
+    <string name="store_negative">No thanks</string>
+
+    <string name="mail_info">Send mail...</string>
+    <string name="mail_text">Would you like to send feedback to the developer?</string>
+    <string name="mail_positive">Yes</string>
+    <string name="mail_negative">No</string>
+
     <string name="send_mail">Send mail…</string>
     <string name="default_mail_title">App Report (%s)</string>
 </resources>

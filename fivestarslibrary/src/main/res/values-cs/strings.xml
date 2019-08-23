@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_title">Hodnocení aplikace</string>
+    <string name="default_text">Jak moc se vám aplikace líbí?</string>
+    <string name="default_positive">Hodnotit</string>
+    <string name="default_negative">Nyní ne</string>
+    <string name="default_never">Již se neptat</string>
+
+    <string name="store_text">Chcete ohodnotit aplikaci na Google Play? Budeme velmi rádi, když nás ohodnotíte.</string>
+    <string name="store_positive">Jistě</string>
+    <string name="store_negative">Ne, díky</string>
+
+    <string name="mail_info">Poslat zpětnou vazbu</string>
+    <string name="mail_text">Chcete nám poslat zpětnou vazbu, co bychom měli v aplikaci vylepšit?</string>
+    <string name="mail_positive">Ano</string>
+    <string name="mail_negative">Ne</string>
+
+    <string name="send_mail">Poslat zpětnou vazbu</string>
+    <string name="default_mail_title">Hodnocení aplikace %s</string>
+</resources>
