@@ -31,7 +31,7 @@ To use the library, first include it your project using Gradle
     }
 
 	dependencies {
-	        compile 'com.github.burdavac:Android-Five-Stars-Library:v3.2'
+	        compile 'com.github.burdavac:Android-Five-Stars-Library:v3.2.1'
 	}
 
 
@@ -52,10 +52,10 @@ Example:
                 .setUpperBound(2) // Market opened if a rating >= 2 is selected
                 .setNegativeReviewListener(this) // OVERRIDE mail intent for negative review
                 .setReviewListener(this) // Used to listen for reviews (if you want to track them )
-				.setIconVisible(true) //if icon is visible
+                .setIconVisible(true) //if icon is visible
                 .setIconDrawable(drawable...) //set custom icon
                 .showAfter(5)
-				.showImmediatelly(); //ignore counter
+                .showImmediatelly(); //ignore counter
 ```
 ## Features
 
