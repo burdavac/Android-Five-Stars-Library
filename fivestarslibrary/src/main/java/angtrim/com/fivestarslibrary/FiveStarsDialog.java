@@ -100,21 +100,8 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         }
 
         ratingBar = dialogView.findViewById(R.id.ratingBar);
-        ratingBar.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(SimpleRatingBar ratingBar, float v, boolean b) {
-                Log.d(TAG, "Rating changed : " + v);
-                if (starListener != null)
-                    starListener.onRatingChanged((int) ratingBar.getRating());
+        // moved down: ratingBar.setOnRatingBarChangeListener
 
-                if (isForceMode && v >= upperBound) {
-                    disable();
-                    openMarket();
-                    if (reviewListener != null)
-                        reviewListener.onReview((int) ratingBar.getRating());
-                }
-            }
-        });
         icon = dialogView.findViewById(R.id.icon);
         if (isIconVisible) {
             icon.setVisibility(View.VISIBLE);
@@ -149,6 +136,23 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         }
 
         alertDialog = builder.create();
+
+        ratingBar.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(SimpleRatingBar ratingBar, float v, boolean b) {
+                Log.d(TAG, "Rating changed : " + v);
+                if (starListener != null) {
+                    starListener.onRatingChanged((int) ratingBar.getRating());
+                }
+
+                if (isForceMode && v >= upperBound) {
+                    disable();
+                    openMarket();
+                    if (reviewListener != null)
+                        reviewListener.onReview((int) ratingBar.getRating());
+                }
+            }
+        });
     }
 
     private void disable() {
