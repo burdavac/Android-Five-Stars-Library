@@ -42,6 +42,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private Drawable iconDrawable = null;
     private String title = null;
     private boolean hideMainTitle = false;
+    private boolean hideNegativeButton = false;
+    private boolean hideNeutralButton = false;
+    private boolean hidepositiveButton = false;
     private String rateText = null;
     private AlertDialog alertDialog;
     private boolean showAskEmailDialog = true;
@@ -109,13 +112,20 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         if (hideMainTitle == true) {
             mainTitle = "";
         }
-        alertDialog = builder
-                .setTitle(mainTitle)
-                .setView(dialogView)
-                .setNegativeButton((negativeButtonText == null) ? context.getString(R.string.default_negative) : negativeButtonText, this)
-                .setPositiveButton((positiveButtonText == null) ? context.getString(R.string.default_positive) : positiveButtonText, this)
-                .setNeutralButton((neverButtonText == null) ? context.getString(R.string.default_never) : neverButtonText, this)
-                .create();
+
+        builder.setTitle(mainTitle);
+        builder.setView(dialogView);
+        if (!hideNegativeButton) {
+            builder.setNegativeButton((negativeButtonText == null) ? context.getString(R.string.default_negative) : negativeButtonText, this);
+        }
+        if (!hidepositiveButton) {
+            builder.setPositiveButton((positiveButtonText == null) ? context.getString(R.string.default_positive) : positiveButtonText, this);
+        }
+        if (!hideNeutralButton) {
+            builder.setNeutralButton((neverButtonText == null) ? context.getString(R.string.default_never) : neverButtonText, this);
+        }
+
+        alertDialog = builder.create();
     }
 
     private void disable() {
@@ -380,6 +390,21 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setHideMainTitle(boolean hideMainTitle) {
         this.hideMainTitle = hideMainTitle;
+        return this;
+    }
+
+    public FiveStarsDialog setHideNegativeButton(boolean hideNegativeButton) {
+        this.hideNegativeButton = hideNegativeButton;
+        return this;
+    }
+
+    public FiveStarsDialog setHideNeutralButton(boolean hideNeutralButton) {
+        this.hideNeutralButton = hideNeutralButton;
+        return this;
+    }
+
+    public FiveStarsDialog setHidePositiveButton(boolean hidepositiveButton) {
+        this.hidepositiveButton = hidepositiveButton;
         return this;
     }
 
