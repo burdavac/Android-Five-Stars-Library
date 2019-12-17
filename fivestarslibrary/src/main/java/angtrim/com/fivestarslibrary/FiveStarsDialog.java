@@ -57,6 +57,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private int upperBound = 4;
     private NegativeReviewListener negativeReviewListener;
     private ReviewListener reviewListener;
+    private StarListener starListener;
     private int starColor;
     private String positiveButtonText;
     private String negativeButtonText;
@@ -103,6 +104,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
             @Override
             public void onRatingChanged(SimpleRatingBar ratingBar, float v, boolean b) {
                 Log.d(TAG, "Rating changed : " + v);
+                if (starListener != null)
+                    starListener.onRatingChanged((int) ratingBar.getRating());
+
                 if (isForceMode && v >= upperBound) {
                     disable();
                     openMarket();
