@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements NegativeReviewLis
         fiveStarsDialog
                 //.setRateText("Your custom text")
                 .setTitle("Your custom title")
+                //.setAboveRateText("Above text!")
+                //.setRateText("Some rating text...")
+                //.setBelowRateText("Below text")
                 .setHideMainTitle(true)
                 .setForceMode(false)
                 .setUpperBound(4)

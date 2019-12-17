@@ -36,6 +36,8 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private String supportEmailTitle;
     private String supportEmailText;
     private TextView contentTextView;
+    private TextView aboveContentTextView;
+    private TextView belowContentTextView;
     private SimpleRatingBar ratingBar;
     private ImageView icon;
     private boolean isIconVisible = false;
@@ -45,7 +47,9 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private boolean hideNegativeButton = false;
     private boolean hideNeutralButton = false;
     private boolean hidepositiveButton = false;
+    private String aboveRateText = null;
     private String rateText = null;
+    private String belowRateText = null;
     private AlertDialog alertDialog;
     private boolean showAskEmailDialog = true;
     private boolean showAskMarketDialog = true;
@@ -77,8 +81,23 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         dialogView = inflater.inflate(R.layout.stars, null);
         String titleToAdd = (title == null) ? context.getString(R.string.default_title) : title;
         String textToAdd = (rateText == null) ? context.getString(R.string.default_text) : rateText;
+
         contentTextView = dialogView.findViewById(R.id.text_content);
         contentTextView.setText(textToAdd);
+
+        aboveContentTextView = dialogView.findViewById(R.id.text_abovecontent);
+        if (aboveRateText != null) {
+            aboveContentTextView.setText(aboveRateText);
+        } else {
+            aboveContentTextView.setVisibility(View.GONE);
+        }
+        belowContentTextView = dialogView.findViewById(R.id.text_belowcontent);
+        if (belowRateText != null) {
+            belowContentTextView.setText(belowRateText);
+        } else {
+            belowContentTextView.setVisibility(View.GONE);
+        }
+
         ratingBar = dialogView.findViewById(R.id.ratingBar);
         ratingBar.setOnRatingBarChangeListener(new SimpleRatingBar.OnRatingBarChangeListener() {
             @Override
@@ -350,6 +369,16 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setRateText(String rateText) {
         this.rateText = rateText;
+        return this;
+    }
+
+    public FiveStarsDialog setAboveRateText(String aboveRateText) {
+        this.aboveRateText = aboveRateText;
+        return this;
+    }
+
+    public FiveStarsDialog setBelowRateText(String belowRateText) {
+        this.belowRateText = belowRateText;
         return this;
     }
 
