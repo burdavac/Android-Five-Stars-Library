@@ -509,4 +509,15 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         return this;
     }
 
+    /**
+     * Set a listener to get notified when a review (positive or negative) is issued, for example for tracking purposes
+     *
+     * @param listener
+     * @return
+     */
+    public FiveStarsDialog setStarListener(StarListener listener) {
+        this.starListener = listener;
+        return this;
+    }
+
 }
