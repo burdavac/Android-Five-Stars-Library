@@ -279,6 +279,15 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         show();
     }
 
+    public void showImmediatellyAnyway() {
+        if (alertDialog == null) {
+            build();
+            if (!alertDialog.isShowing()) {
+                alertDialog.show();
+            }
+        }
+    }
+
 
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
