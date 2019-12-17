@@ -323,13 +323,13 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
 
     public void hide() {
-        if (alertDialog == null) {
+        if (alertDialog != null) {
             alertDialog.hide();
         }
     }
 
     public void dismiss() {
-        if (alertDialog == null) {
+        if (alertDialog != null) {
             alertDialog.dismiss();
         }
     }
