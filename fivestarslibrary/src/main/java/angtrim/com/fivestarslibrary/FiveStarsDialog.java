@@ -47,6 +47,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private boolean hideNegativeButton = false;
     private boolean hideNeutralButton = false;
     private boolean hidepositiveButton = false;
+    private boolean hideRatingBar = false;
     private String aboveRateText = null;
     private String rateText = null;
     private String belowRateText = null;
@@ -101,6 +102,11 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
         ratingBar = dialogView.findViewById(R.id.ratingBar);
         // moved down: ratingBar.setOnRatingBarChangeListener
+        if (hideRatingBar) {
+            ratingBar.setVisibility(View.GONE);
+        } else {
+            ratingBar.setVisibility(View.VISIBLE);
+        }
 
         icon = dialogView.findViewById(R.id.icon);
         if (isIconVisible) {
@@ -455,6 +461,11 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setHidePositiveButton(boolean hidepositiveButton) {
         this.hidepositiveButton = hidepositiveButton;
+        return this;
+    }
+
+    public FiveStarsDialog setHideRatingBar(boolean hideRatingBar) {
+        this.hideRatingBar = hideRatingBar;
         return this;
     }
 
