@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private TextView contentTextView;
     private TextView aboveContentTextView;
     private TextView belowContentTextView;
+    private Button dismissButton;
     private SimpleRatingBar ratingBar;
     private ImageView icon;
     private boolean isIconVisible = false;
@@ -51,6 +53,7 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
     private String aboveRateText = null;
     private String rateText = null;
     private String belowRateText = null;
+    private String dismissButtonText = null;
     private AlertDialog alertDialog;
     private boolean showAskEmailDialog = true;
     private boolean showAskMarketDialog = true;
@@ -103,6 +106,19 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
         } else {
             belowContentTextView.setVisibility(View.GONE);
         }
+
+        dismissButton = dialogView.findViewById(R.id.dismissButton);
+        if (dismissButtonText != null) {
+            dismissButton.setText(dismissButtonText);
+        } else {
+            dismissButton.setVisibility(View.GONE);
+        }
+        dismissButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
         ratingBar = dialogView.findViewById(R.id.ratingBar);
         // moved down: ratingBar.setOnRatingBarChangeListener
@@ -410,6 +426,11 @@ public class FiveStarsDialog implements DialogInterface.OnClickListener {
 
     public FiveStarsDialog setBelowRateText(String belowRateText) {
         this.belowRateText = belowRateText;
+        return this;
+    }
+
+    public FiveStarsDialog setDismissButtonText(String dismissButtonText) {
+        this.dismissButtonText = dismissButtonText;
         return this;
     }
 
